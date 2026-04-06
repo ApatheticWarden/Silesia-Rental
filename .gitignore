@@ -1,0 +1,9 @@
+# Shared
+.vs
+# SilesiaRental
+SilesiaRental/bin
+SilesiaRental/obj
+# SilesiaRental.MVC
+SilesiaRental.MVC/bin
+SilesiaRental.MVC/obj
+

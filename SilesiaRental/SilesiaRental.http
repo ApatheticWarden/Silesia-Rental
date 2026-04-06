@@ -1,0 +1,8 @@
+@rootURL = http://localhost:5243
+
+###
+GET {{rootURL}}/ping/
+Accept: application/json
+###
+GET {{rootURL}}/api/tools
+Accept: application/json

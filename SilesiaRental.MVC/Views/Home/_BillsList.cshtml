@@ -1,0 +1,50 @@
+﻿@using SilesiaRental.Models
+@model List<Rental>
+
+<div class="fade-in">
+    <h4 class="mb-4 fw-bold text-theme">Payment History</h4>
+
+    @{
+        var returnedRentals = Model.Where(r => r.ReturnDate != null).OrderByDescending(r => r.ReturnDate).ToList();
+    }
+
+    @if (returnedRentals.Count == 0) {
+        <div class="alert alert-light text-center opacity-75 glass-alert">История пуста.</div>
+    } else {
+        <div class="table-responsive card-custom border-0">
+            <table class="table table-hover mb-0 bg-transparent text-theme">
+                <thead style="background: rgba(var(--primary-rgb), 0.1);">
+                    <tr>
+                        <th class="text-theme border-glass">Tool</th>
+                        <th class="text-theme border-glass">Date</th>
+                        <th class="text-theme border-glass">Days</th>
+                        <th class="text-theme border-glass">Total Paid</th>
+                        <th class="text-theme border-glass">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    @foreach (var r in returnedRentals) {
+                        var days = (r.ReturnDate.Value - r.RentalDate).Days;
+                        if (days == 0) days = 1;
+
+                        var price = days * (r.Tool?.PricePerDay ?? 0);
+
+                        <tr>
+                            <td class="fw-bold text-theme border-glass">
+                                @(r.Tool?.Name ?? $"ID {r.ToolID}")
+                            </td>
+                            <td class="small text-theme-muted border-glass">
+                                @r.RentalDate.ToString("dd.MM.yyyy") - @r.ReturnDate.Value.ToString("dd.MM.yyyy")
+                            </td>
+                            <td class="text-theme border-glass">@days</td>
+                            <td class="fw-bold text-success border-glass">@price zł</td>
+                            <td class="border-glass">
+                                <span class="badge bg-success rounded-pill">Paid</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

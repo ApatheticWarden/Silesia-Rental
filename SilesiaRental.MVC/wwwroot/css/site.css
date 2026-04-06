@@ -1,0 +1,134 @@
+﻿/* =========================================
+   SilesiaRental - Modern Glass & Dark Mode
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* СВЕТЛАЯ ТЕМА */
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-color: #f3f4f6;
+    --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #cbebff 100%);
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --nav-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --input-bg: #f9fafb;
+    --input-border: #e5e7eb;
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ТЕМНАЯ ТЕМА (исправленный селектор) */
+[data-bs-theme="dark"] {
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --bg-color: #111827;
+    --bg-gradient: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    --text-color: #f3f4f6;
+    --text-muted: #9ca3af;
+    --card-bg: rgba(31, 41, 55, 0.95);
+    --nav-bg: rgba(31, 41, 55, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --input-bg: #374151;
+    --input-border: #4b5563;
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* ЖЕСТКАЯ ПРИВЯЗКА К ФОНУ */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+/* Навигация (Стекло) */
+.navbar-glass {
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0.8rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 1.35rem;
+}
+
+.nav-pills-custom {
+    background: var(--card-bg);
+    padding: 0.4rem;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.nav-link-custom {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+    .nav-link-custom:hover {
+        background: rgba(128,128,128,0.1);
+        color: var(--primary);
+    }
+
+    .nav-link-custom.active {
+        background: var(--primary);
+        color: white !important;
+    }
+
+.card-custom {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.2s;
+    height: 100%;
+    overflow: hidden;
+}
+
+    .card-custom:hover {
+        transform: translateY(-5px);
+    }
+
+.dropdown-menu {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+    color: var(--text-color);
+}
+
+    .dropdown-item:hover {
+        background: rgba(128,128,128,0.1);
+        color: var(--primary);
+    }
+
+/* Утилиты для динамического текста */
+.text-theme {
+    color: var(--text-color) !important;
+}
+
+.text-theme-muted {
+    color: var(--text-muted) !important;
+}
+
+.border-glass {
+    border-color: var(--glass-border) !important;
+}

@@ -1,0 +1,38 @@
+﻿@using SilesiaRental.Models
+@model List<Rental>
+
+<div class="fade-in">
+    <h4 class="mb-4 fw-bold text-theme">Active rents:</h4>
+
+    @if (Model.Count == 0) {
+        <div class="alert alert-info shadow-sm border-0 glass-alert">
+            You don't have active rents yet!
+        </div>
+    } else {
+        <div class="list-group shadow-sm card-custom border-0">
+            @foreach (var rental in Model) {
+                <div class="list-group-item p-4 d-flex justify-content-between align-items-center bg-transparent border-bottom border-glass">
+
+                    <div>
+                        <h5 class="fw-bold mb-1 text-theme">
+                            @rental.Tool.Name <span class="text-muted">#@rental.ToolID</span>
+                        </h5>
+
+                        <div class="small text-theme-muted">
+                            <i class="bi bi-calendar-event me-1"></i>
+                            Date: @rental.RentalDate.ToString("g")
+                        </div>
+                    </div>
+
+                    <form method="post" action="/Home/ReturnTool" onsubmit="return confirm('Are you sure you want to return this tool?');">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="rentalId" value="@rental.ID" />
+                        <button type="submit" class="btn btn-danger fw-bold px-4 rounded-pill shadow-sm">
+                            <i class="bi bi-arrow-return-left me-2"></i>Return
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
+</div>
