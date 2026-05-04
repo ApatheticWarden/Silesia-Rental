@@ -14,10 +14,11 @@ namespace SilesiaRental.MVC.Controllers
     public class HomeController : Controller {
         private readonly IHttpClientFactory _clientFactory;
 
-        private const string BaseApiUrl = "https://localhost:7058/api";
+        private string _apiUrl;
 
-        public HomeController(IHttpClientFactory clientFactory) {
+        public HomeController(IHttpClientFactory clientFactory, IConfiguration configuration) {
             _clientFactory = clientFactory;
+            _apiUrl = configuration["ApiSettings:BaseUrl"] + "/api";
         }
 
         public IActionResult Index() {
@@ -27,7 +28,7 @@ namespace SilesiaRental.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRentalsPartial() {
             var client = CreateClient();
-            var res = await client.GetAsync($"{BaseApiUrl}/Tools");
+            var res = await client.GetAsync($"{_apiUrl}/Tools");
 
             if (res.IsSuccessStatusCode == false) return PartialView("_ErrorPage");
 
@@ -47,7 +48,7 @@ namespace SilesiaRental.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReturnsPartial() {
             var client = CreateClient();
-            var res = await client.GetAsync($"{BaseApiUrl}/Rentals/active-rentals");
+            var res = await client.GetAsync($"{_apiUrl}/Rentals/active-rentals");
 
             if (res.IsSuccessStatusCode == false) return PartialView("_ErrorPage");
 
@@ -68,7 +69,7 @@ namespace SilesiaRental.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> GetHistoryPartial() {
             var client = CreateClient();
-            var res = await client.GetAsync($"{BaseApiUrl}/Rentals/closed-rentals");
+            var res = await client.GetAsync($"{_apiUrl}/Rentals/closed-rentals");
             var rentals = new List<Rental>();
 
             if (res.IsSuccessStatusCode == false) return PartialView("_ErrorPage");
@@ -97,7 +98,7 @@ namespace SilesiaRental.MVC.Controllers
                 Encoding.UTF8, "application/json");
 
             var client = CreateClient();
-            var res = await client.PostAsync($"{BaseApiUrl}/Rentals/rent", jsonReq);
+            var res = await client.PostAsync($"{_apiUrl}/Rentals/rent", jsonReq);
 
             if (res.IsSuccessStatusCode) TempData["Message"] = "Rented!";
             else {
@@ -114,7 +115,7 @@ namespace SilesiaRental.MVC.Controllers
         public async Task<IActionResult> ReturnTool(int rentalId)
         {
             var client = CreateClient();
-            var res = await client.PostAsync($"{BaseApiUrl}/Rentals/return/{rentalId}", null);
+            var res = await client.PostAsync($"{_apiUrl}/Rentals/return/{rentalId}", null);
 
             var json = await res.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

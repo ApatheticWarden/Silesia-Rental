@@ -20,11 +20,11 @@ namespace SilesiaRental.MVC.Controllers
         private readonly IHttpClientFactory _clientFactory;
 
         // Getting an API
-        private const string ApiUrl = "https://localhost:7058/api/Users";
+        private string _apiUrl;
 
-        public AccountController(IHttpClientFactory clientFactory)
-        {
+        public AccountController(IHttpClientFactory clientFactory, IConfiguration configuration) {
             _clientFactory = clientFactory;
+            _apiUrl = configuration["ApiSettings:BaseUrl"] + "/api/Users";
         }
 
         [HttpGet]
@@ -38,7 +38,7 @@ namespace SilesiaRental.MVC.Controllers
             var jsonContent = new StringContent(JsonSerializer.Serialize(regModel), Encoding.UTF8, "application/json");
 
             var client = CreateClient();
-            var res = await client.PostAsync($"{ApiUrl}/register", jsonContent);
+            var res = await client.PostAsync($"{_apiUrl}/register", jsonContent);
             if (res.IsSuccessStatusCode) return RedirectToAction("Login");
             else {
                 // ЧИТАЕМ ОШИБКУ
@@ -64,7 +64,7 @@ namespace SilesiaRental.MVC.Controllers
             // Making a "phone"
             var client = CreateClient();
             // Calling and waiting for response
-            var res = await client.PostAsync($"{ApiUrl}/login", jsonContent);
+            var res = await client.PostAsync($"{_apiUrl}/login", jsonContent);
             // Checking
             if (res.IsSuccessStatusCode)
             {
@@ -123,7 +123,7 @@ namespace SilesiaRental.MVC.Controllers
 
             var client = CreateClient();
 
-            var res = await client.GetAsync($"{ApiUrl}/profile/{username}");
+            var res = await client.GetAsync($"{_apiUrl}/profile/{username}");
 
             if (res.IsSuccessStatusCode) {
                 var json = await res.Content.ReadAsStringAsync();

@@ -12,10 +12,11 @@ namespace SilesiaRental.MVC.Controllers {
         private readonly IHttpClientFactory _clientFactory;
 
         // Getting an API
-        private const string ApiUrl = "https://localhost:7058/api";
+        private string _apiUrl;
 
-        public AdminController(IHttpClientFactory clientFactory) {
+        public AdminController(IHttpClientFactory clientFactory, IConfiguration configuration) {
             _clientFactory = clientFactory;
+            _apiUrl = configuration["ApiSettings:BaseUrl"] + "/api";
         }
 
         [HttpGet]
@@ -28,7 +29,7 @@ namespace SilesiaRental.MVC.Controllers {
             try {
                 var client = CreateClient();
 
-                var envelope = await client.GetFromJsonAsync<Envelope<List<Tool>>>($"{ApiUrl}/Tools");
+                var envelope = await client.GetFromJsonAsync<Envelope<List<Tool>>>($"{_apiUrl}/Tools");
 
                 if (!envelope!.IsSuccess) {
                     return Content($"<div class='alert alert-danger m-4 glass-alert'>API-Error. Code: {envelope.Message} </div>");

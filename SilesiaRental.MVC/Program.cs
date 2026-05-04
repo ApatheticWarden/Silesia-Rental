@@ -5,7 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 builder.Services.AddHttpClient("ApiClient", client => {
-    client.BaseAddress = new Uri("https://localhost:7058/api/");
+    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+    client.BaseAddress = new Uri(baseUrl);
 });
 
 builder.Services.AddControllersWithViews();

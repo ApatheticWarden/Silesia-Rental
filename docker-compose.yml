@@ -1,0 +1,41 @@
+services:
+  silesia-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Cpalka@Chuj123
+      - MSSQL_PID=Developer
+    ports:
+      - '1433:1433'
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  silesia-api:
+    build:
+      context: .
+      dockerfile: SilesiaRental/Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=silesia-db;Database=silrentdb;User Id=sa;Password=Cpalka@Chuj123;TrustServerCertificate=True;
+    depends_on:
+      - silesia-db
+
+  silesia-mvc:
+    build:
+      context: .
+      dockerfile: SilesiaRental.MVC/Dockerfile
+    ports: 
+      - '8081:8080'
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ApiSettings__BaseUrl=http://silesia-api:8080
+    depends_on:
+      - silesia-api
+
+volumes:
+  mssql_data:

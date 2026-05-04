@@ -12,8 +12,8 @@ using SilesiaRental.Data;
 namespace SilesiaRental.Migrations
 {
     [DbContext(typeof(SilesiaRentalAPIContext))]
-    [Migration("20260208205552_roles_added")]
-    partial class roles_added
+    [Migration("20260504135225_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

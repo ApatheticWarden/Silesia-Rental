@@ -1,9 +1,29 @@
-# Shared
-.vs
-# SilesiaRental
-SilesiaRental/bin
-SilesiaRental/obj
-# SilesiaRental.MVC
-SilesiaRental.MVC/bin
-SilesiaRental.MVC/obj
+# Игнорируем bin и obj везде (и в API, и в MVC, и в Shared)
+[Bb]in/
+[Ob]j/
 
+# Пользовательские настройки Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# === Базы данных ===
+# Игнорируем файлы локальных БД, чтобы не пушить мегабайты данных
+*.mdf
+*.ldf
+*.db
+*.sqlite
+# Папка данных MSSQL в проекте
+SilesiaRental/Data/*.mdf
+SilesiaRental/Data/*.ldf
+
+# === Конфигурация и секреты ===
+# Если хочешь скрыть настройки разработки, раскомментируй строку ниже:
+# appsettings.Development.json
+
+# === Инфраструктура ===
+.docker/
+*.log
+.DS_Store
